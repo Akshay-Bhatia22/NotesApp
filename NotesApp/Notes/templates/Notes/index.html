@@ -1,0 +1,6 @@
+<h1>DJANGO NOTES APP</h1>
+{% with space="  " %}    
+{% for notes in all_notes %}
+<h2><a href=#>{{ forloop.counter }}{{ space }}{{ notes }}</a></h2>
+{% endfor %}
+{% endwith %}
