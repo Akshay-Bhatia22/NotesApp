@@ -2,9 +2,10 @@ from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from .models import NoteModel, Notelist
 from .forms import NoteCreate
-
+from django.db.models.query import QuerySet 
 def index(request):
-    all_notes = NoteModel.objects.all()
+    # shows the most recent note created
+    all_notes = NoteModel.objects.order_by('-created')
     return render(request, 'Notes/index.html', {'all_notes':all_notes})
 
 def create(request):
@@ -42,3 +43,7 @@ def detail(request, Notes_title):
     Note_detail = NoteModel.objects.get(title=Notes_title)
     # Note_detail_list = Notelist.objects.create(link=Note_detail,item="some items")
     return render(request, 'Notes/detail.html', {'detail_note':Note_detail})
+
+def collections(request):
+    collection_all = NoteModel.objects.order_by('collection')
+    return render(request, 'Notes/collections.html', {'collection_all':collection_all})

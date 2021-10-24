@@ -8,6 +8,9 @@
 {% if detail_note.fav %}
 <h5>marked as {{ detail_note.is_fav }}</h5>
 {% endif %}
+{% if detail_note.collection %}
+<h5>Added to {{ detail_note.collection }} collection</h5>
+{% endif %}
 <div>
     {% if detail_note.note_img %}
     <img style="width:10vw" src="{{ detail_note.note_img.url }}" alt="image of note">

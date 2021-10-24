@@ -8,6 +8,7 @@ class NoteModel(models.Model):
     desc = models.CharField(max_length=80,blank=True)
     note_img = models.ImageField(blank=True)
     fav = models.BooleanField(default=False)
+    collection = models.CharField(max_length=30,blank=True)
 
     def __str__(self):
         return str(self.title)

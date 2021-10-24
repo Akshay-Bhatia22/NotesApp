@@ -1,0 +1,8 @@
+{% regroup collection_all by collection as collection_list %}
+
+{% for collection in collection_list %}
+    <h2>{{ collection.grouper }}</h2>
+    {% for note in collection.list %}
+        <h3><a href="index/detail/{{note.title}}">{{ note.title }}</a></h3>
+    {% endfor %}
+{% endfor %}
