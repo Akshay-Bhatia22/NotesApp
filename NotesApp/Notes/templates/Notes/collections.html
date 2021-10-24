@@ -3,6 +3,6 @@
 {% for collection in collection_list %}
     <h2>{{ collection.grouper }}</h2>
     {% for note in collection.list %}
-        <h3><a href="index/detail/{{note.title}}">{{ note.title }}</a></h3>
+        <h3><a href="detail/{{note.title}}">{{ note.title }}</a></h3>
     {% endfor %}
 {% endfor %}
