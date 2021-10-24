@@ -1,7 +1,7 @@
 from django import forms
 from .models import NoteModel
 
-class NotecCreate(forms.ModelForm):
+class NoteCreate(forms.ModelForm):
     class Meta:
         model = NoteModel
-        firlds = '__all__'
+        fields = ['title', 'desc', 'fav', 'note_img']

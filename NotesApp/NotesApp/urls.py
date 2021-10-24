@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from Notes import views
-
+from NotesApp.settings import DEBUG, STATIC_ROOT,STATIC_URL,MEDIA_ROOT,MEDIA_URL
+from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/', include('Notes.urls'))
+    path('index/', include('Notes.urls')),
 ]
+urlpatterns += static(MEDIA_URL, document_root = MEDIA_ROOT)

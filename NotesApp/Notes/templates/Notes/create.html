@@ -1,0 +1,8 @@
+<form method="POST", enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in create_form %}
+    <h1>{{ field.label }}</h1>
+    <h2>{{ field }}</h2>
+    {% endfor %}
+    <button type="submit">CREATE</button>
+</form>

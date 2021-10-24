@@ -1,6 +1,9 @@
 <h1>DJANGO NOTES APP</h1>
 {% with space="  " %}    
 {% for notes in all_notes %}
-<h2><a href=#>{{ forloop.counter }}{{ space }}{{ notes }}</a></h2>
+<h2><a href="detail/{{notes}}">{{ forloop.counter }}{{ space }}{{ notes }}{{ space }}{{ notes.is_fav }}</a></h2>
 {% endfor %}
 {% endwith %}
+<br>
+<button  onclick="window.location.href='{% url 'Notes:create' %}';">Create a Note</button>
+<!-- <h1><a href="{% url 'Notes:create' %}">CREATE</a></h1> -->
