@@ -1,7 +1,12 @@
+{% load static %}
 <h1>DJANGO NOTES APP</h1>
 {% with space="  " %}    
 {% for notes in all_notes %}
-<h2><a href="detail/{{notes}}">{{ forloop.counter }}{{ space }}{{ notes }}{{ space }}{{ notes.is_fav }}</a></h2>
+<h2><a href="detail/{{notes}}">{{ forloop.counter }}{{ space }}{{ notes }}{{ space }}
+    {% if notes.fav %}
+    <img style="width:2vw" src="{% static 'Notes/star.png'%}" alt="">
+    {% endif %}
+</a></h2>
 {% endfor %}
 {% endwith %}
 <br>

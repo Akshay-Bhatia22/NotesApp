@@ -25,8 +25,8 @@ import environ
 env = environ.Env()
 environ.Env.read_env()
 
-SECRET_KEY = env('SECRET_KEY')
-
+# SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY='zld2zti_l3o%+z03&0k03zmzk*awlku-47#(n*ti-l061#0%2v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
