@@ -20,6 +20,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', include('Notes.urls')),
-    path('index/collections/',include('Notes.urls'))
+    path('index/collections/',include('Notes.urls')),
+
+# ------------------------------------------API-----------------------------------------------
+    path('', include('Notes.urls')),
 ]
 urlpatterns += static(MEDIA_URL, document_root = MEDIA_ROOT)

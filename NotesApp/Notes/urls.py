@@ -12,6 +12,11 @@ urlpatterns = [
     path('detail/<str:Notes_title>/update', views.update),
     path('detail/<str:Notes_title>/delete', views.delete_note),
     path('detail/<str:Notes_title>', views.detail),
+
+# -----------------------------------API------------------------------------------------
+    path('api/',views.List_notes_all_create_api),
+    path('api/detail/<str:Notes_title>/',views.Note_detail_api),
+
 ]
 
 urlpatterns += static(MEDIA_URL, document_root = MEDIA_ROOT)
