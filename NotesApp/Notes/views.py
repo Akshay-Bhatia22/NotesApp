@@ -1,8 +1,58 @@
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, JsonResponse
+
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
+from Notes.serializers import NoteModelSerializer
+
 from django.shortcuts import render, redirect
 from .models import NoteModel, Notelist
 from .forms import NoteCreate
 from django.db.models.query import QuerySet 
+
+# ----------------------------------------------API-----------------------------------------------------------------------------------------------------------------------
+@csrf_exempt
+def List_notes_all_create_api(request):
+    if request.method == 'GET':
+        notes = NoteModel.objects.all()
+        serialized_notes = NoteModelSerializer(notes, many=True)
+        return JsonResponse(serialized_notes.data, safe=False)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serialized_notes = NoteModelSerializer(data)
+        if serialized_notes.is_valid():
+            serialized_notes.save()
+            return JsonResponse(serialized_notes.data, status=201)
+        return JsonResponse(serialized_notes.errors, status=400)
+
+@csrf_exempt
+def Note_detail_api(request, Notes_title):
+    try:
+        note = NoteModel.objects.get(title=Notes_title)
+        print("passed")
+    except NoteModel.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serialized_note = NoteModelSerializer(note)
+        return JsonResponse(serialized_note.data)
+
+    elif request.method == 'PUT':
+        data_parsed = JSONParser().parse(request)
+        serialized_note = NoteModelSerializer(NoteModel,data_parsed)
+        if serialized_note.is_valid():
+            serialized_note.save()
+            return JsonResponse(serialized_note.data)
+        return JsonResponse(serialized_note.errors, status=400)
+
+    elif request.method == 'DELETE':
+        note.delete()
+        return HttpResponse(status=204)
+
+
+# ----------------------------------------------API-----------------------------------------------------------------------------------------------------------------------
+
+
 def index(request):
     # shows the most recent note created
     all_notes = NoteModel.objects.order_by('-created')
