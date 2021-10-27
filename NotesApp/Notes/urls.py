@@ -14,14 +14,18 @@ urlpatterns = [
     path('detail/<str:Notes_title>/delete', views.delete_note),
     path('detail/<str:Notes_title>', views.detail),
 
-# -----------------------------------API------------------------------------------------
+# -----------------------------------FUNCTION API------------------------------------------------
     #GET 
-    path('api/',views.List_notes_all_get_api),  
+    # path('api/',views.List_notes_all_get_api),  
     # PUT DELETE
-    path('api/detail/<str:Notes_title>/',views.Note_detail_api),
+    # path('api/detail/<str:Notes_title>/',views.Note_detail_api),
     # POST
     path('api/create/', views.Note_create_api),
-
+# ---------------------------------------------------------------API-------------------------------------------------
+    #get post
+    path('clsapi/',views.List_notes_all_get_api.as_view()),
+    #put delete
+    path('clsapi/detail/<str:Notes_title>',views.Note_detail_api.as_view()),
 ]
 
 urlpatterns += static(MEDIA_URL, document_root = MEDIA_ROOT)
