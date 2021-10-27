@@ -1,6 +1,8 @@
-from django.http.response import HttpResponse, JsonResponse
+from django.http.response import HttpResponse
 
-from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from Notes.serializers import NoteModelSerializer
 
@@ -10,23 +12,33 @@ from .forms import NoteCreate
 from django.db.models.query import QuerySet 
 
 # ----------------------------------------------API-----------------------------------------------------------------------------------------------------------------------
-@csrf_exempt
-def List_notes_all_create_api(request):
+@api_view(['GET'])
+def List_notes_all_get_api(request, format=None):
     if request.method == 'GET':
         notes = NoteModel.objects.all()
         serialized_notes = NoteModelSerializer(notes, many=True)
-        return JsonResponse(serialized_notes.data, safe=False)
+        return Response(serialized_notes.data)
 
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serialized_notes = NoteModelSerializer(data)
+    # elif request.method == 'POST':
+    #     serialized_notes = NoteModelSerializer(request.data)
+    #     if serialized_notes.is_valid():
+    #         serialized_notes.save()
+    #         return Response(serialized_notes.data, status=status.HTTP_201_CREATED)
+    #     return Response(serialized_notes.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def Note_create_api(request):
+    if request.method == 'POST':
+        serialized_notes = NoteModelSerializer(data = request.data)
         if serialized_notes.is_valid():
             serialized_notes.save()
-            return JsonResponse(serialized_notes.data, status=201)
-        return JsonResponse(serialized_notes.errors, status=400)
+            return Response(serialized_notes.data, status=status.HTTP_201_CREATED)
+        return Response(serialized_notes.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@csrf_exempt
-def Note_detail_api(request, Notes_title):
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def Note_detail_api(request, Notes_title, format=None):
     try:
         note = NoteModel.objects.get(title=Notes_title)
         print("passed")
@@ -35,15 +47,15 @@ def Note_detail_api(request, Notes_title):
 
     if request.method == 'GET':
         serialized_note = NoteModelSerializer(note)
-        return JsonResponse(serialized_note.data)
+        return Response(serialized_note.data)
 
     elif request.method == 'PUT':
-        data_parsed = JSONParser().parse(request)
-        serialized_note = NoteModelSerializer(NoteModel,data_parsed)
+        # data_parsed = JSONParser().parse(request)
+        serialized_note = NoteModelSerializer(data = request.data)
         if serialized_note.is_valid():
             serialized_note.save()
-            return JsonResponse(serialized_note.data)
-        return JsonResponse(serialized_note.errors, status=400)
+            return Response(serialized_note.data)
+        return Response(serialized_note.errors, status=400)
 
     elif request.method == 'DELETE':
         note.delete()
